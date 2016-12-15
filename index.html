@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="MyApp">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Directory autocomplete</title>
+        <!-- Angular Material CSS -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.css">
+
+        <link href="dir.css" rel="stylesheet" type="text/css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+
+        <!-- Angular Material requires Angular.js Libraries -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-animate.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-aria.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-messages.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
+
+        <!-- Angular Material Library -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
+
+        <!-- Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.1/angular-material-icons.min.js"></script>
+
+        <script src="MyApp.js"></script>
+        <script src="dirAutoComplete.js"></script>
+        <script src="movieService.js"></script>
+        <script src="auDirService.js"></script>
+
+    </head>
+
+    <body>
+
+        <div class="autocompletedemoFloatingLabel" ng-controller="DemoCtrl as ctrl" ng-app="MyApp" layout="column" ng-cloak="">
+            <md-content class="md-padding">
+                <form name="searchForm" ng-submit="$event.preventDefault()">
+                    <div layout-gt-sm="row">
+                        <md-autocomplete
+                            md-floating-label="Search"
+                            flex=""
+                            md-item-text="item.Title"
+                            md-items="item in ctrl.data"
+                            md-search-text-change="ctrl.querySearch(ctrl.searchText)"
+                            md-search-text="ctrl.searchText"
+                            md-selected-item="ctrl.selectedItem"
+                            md-no-cache="ctrl.noCache"
+                            md-input-maxlength="30"
+                            md-input-minlength="2"
+                            md-input-name="autocompleteField"
+                            required="">
+                            <md-item-template>
+                                <span md-highlight-text="ctrl.searchText">{{item.Title}}</span>
+                            </md-item-template>
+                            <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                <div ng-message="required">You
+                                    <b>must</b>
+                                    have a favorite movie.</div>
+                                <div ng-message="minlength">Your entry is not long enough.</div>
+                                <div ng-message="maxlength">Your entry is too long.</div>
+                            </div>
+                        </md-autocomplete>
+                    </div>
+                </form>
+            </md-content>
+            <pre>{{ctrl | json}}</pre>
+            <pre>{{ctrl.movieService | json}}</pre>
+        </div>
+    </body>
+
+</html>
