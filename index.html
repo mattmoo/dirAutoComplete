@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
-<html lang="en" ng-app="MyApp">
+<html lang="en" ng-app="UnidirectoryAutocomplete">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Directory autocomplete</title>
         <!-- Angular Material CSS -->
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.css">
 
-        <link href="dir.css" rel="stylesheet" type="text/css">
+        <link href="css/unidirectoryAutocomplete.css" rel="stylesheet" type="text/css">
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
@@ -20,69 +20,77 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
 
         <!-- Angular Material Library -->
-        <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
-
-        <!-- Icons -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
+        <script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.js"></script>
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.1/angular-material-icons.min.js"></script>
 
-        <script src="MyApp.js"></script>
-        <script src="unidirectoryAutocomplete.js"></script>
-        <script src="UnidirectoryService.js"></script>
+        <script src="unidirectoryAutocomplete/UnidirectoryAutocomplete.js"></script>
+        <script src="unidirectoryAutocomplete/controllers/unidirectoryAutocompleteCtrl.js"></script>
+        <script src="unidirectoryAutocomplete/services/UnidirectoryService.js"></script>
+        <script src="unidirectoryAutocomplete/config/UNIDIRECTORY_AUTOCOMPLETE_CONSTANTS.js"></script>
 
     </head>
 
     <body>
+        <form name="searchForm">
+            <div ng-controller="UnidirectoryAutocompleteCtrl as ctrl" layout="column" ng-cloak="">
 
-        <div class="autocompletedemoCustomTemplate" ng-controller="unidirectoryAutocompleteCtrl as ctrl" ng-app="MyApp" layout="column" ng-cloak="">
-            <md-content class="md-padding">
-                <form name="searchForm" ng-submit="$event.preventDefault()">
+                <md-content class="md-padding">
                     <div layout-gt-sm="row">
                         <md-autocomplete
                             md-floating-label="Search"
                             flex=""
                             md-item-text="item.fullName"
-                            md-items="item in ctrl.UnidirectoryService.searchResults"
-                            md-search-text-change="ctrl.UnidirectoryService.search(ctrl.searchText)"
+                            md-items="item in ctrl.querySearch(ctrl.searchText)"
                             md-search-text="ctrl.searchText"
+                            md-selected-item-change="ctrl.selectedItemChange(item)"
                             md-selected-item="ctrl.selectedItem"
-                            md-no-cache="ctrl.noCache"
-                            md-input-maxlength="30"
-                            md-input-minlength="2"
                             md-input-name="autocompleteField"
-                            md-menu-class="autocomplete-custom-template"
+                            md-menu-class="autocomplete-directory"
                             required="">
                             <md-item-template>
-                                <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
-                                <span class="item-title">
-                                    <strong>{{item.fullName}}</strong>,
-                                </span>
-                                <span class="item-metadata">
-                                    <span class="item-metastat">
-                                        {{item.positions[0].position}}
-                                    </span>
-                                    <span class="item-metastat">
-                                        <strong>{{item.forks}}</strong>
-                                    </span>
-                                </span>
+                                <div layout="row" layout-align="start center">
+                                    <img ng-src="{{((item.image).indexOf('no-person') === -1) ? (ctrl.UNIDIRECTORY_AUTOCOMPLETE_CONSTANTS.CROPPING_PHP + item.image ) : ctrl.UNIDIRECTORY_AUTOCOMPLETE_CONSTANTS.DEFAULT_PIC_PATH}}" class="md-avatar" alt="{{item.fullName}}"/>
+                                    <div class="item-metadata">
+                                        <div class="item-description">
+                                            <div class="item-title">
+                                                <strong>{{item.fullName}}</strong>,
+                                                <em>
+                                                    {{item.positions[0].position}}
+                                                </em>
+                                            </div>
+                                            <div>
+                                                <strong>Department:
+                                                </strong>{{item.positions[0].department.name}}
+                                            </div>
+                                            <div>
+                                                <strong>Organisational unit:
+                                                </strong>
+                                                <span ng-repeat="orgUnit in item.positions[0].orgUnits">{{orgUnit.name}}{{$last ? '' : ', '}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </md-item-template>
-                            <!-- <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                            <div ng-messages="searchForm.autocompleteField.$error">
                                 <div ng-message="required">You
                                     <b>must</b>
                                     have a favorite movie.</div>
                                 <div ng-message="minlength">Your entry is not long enough.</div>
                                 <div ng-message="maxlength">Your entry is too long.</div>
-                            </div> -->
+                            </div>
                         </md-autocomplete>
                     </div>
-                </form>
-            </md-content>
-            <!-- <pre>{{ctrl | json}}</pre> -->
-            <pre>{{ctrl.UnidirectoryService.searchResults[0] | json}}</pre>
-            <pre>{{ctrl.UnidirectoryService.searchResults[0].fullname | json}}</pre>
-        </div>
+                </md-content>
+                <!-- <pre>{{ctrl | json}}</pre> -->
+                <pre>Search string:-----------------------------------------------
+{{ctrl.searchText | json}}</pre>
+                <pre>Selected item:-----------------------------------------------
+{{ctrl.selectedItem | json}}</pre>
+                <pre>Search results:-----------------------------------------------
+{{ctrl.UnidirectoryService.searchResults | json}}</pre>
+            </div>
+        </form>
     </body>
 
 </html>
