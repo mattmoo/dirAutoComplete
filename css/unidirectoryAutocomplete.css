@@ -1,0 +1,42 @@
+.autocomplete-directory li {
+    border-bottom: 1px solid #ccc;
+    height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    white-space: normal;
+}
+
+.autocomplete-directory li:last-child {
+    border-bottom-width: 0;
+}
+
+.autocomplete-directory .item-title {
+    font-size: 1.1em;
+    padding-bottom: .1em;
+}
+
+.autocomplete-directory .item-description {
+    line-height: 1.5em;
+    margin: 10px;
+}
+
+.autocomplete-directory md-icon {
+    margin-right: 10px;
+    margin-left: 0px;
+    margin-top: auto;
+}
+
+.autocomplete-directory .md-avatar {
+    max-height: 64px;
+    max-width: 100%;
+    object-fit: cover;
+    margin-right: 6px;
+
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+
+    -webkit-box-shadow: 0 0 0 3px #fff;
+    -moz-box-shadow: 0 0 0 3px #fff;
+    box-shadow: 0 0 0 3px #fff;
+}

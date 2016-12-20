@@ -1,0 +1,44 @@
+<div layout-gt-sm="row">
+    <md-autocomplete
+        md-floating-label="Search"
+        flex=""
+        md-item-text="item.fullName"
+        md-items="item in ctrl.querySearch(ctrl.searchText)"
+        md-search-text="ctrl.searchText"
+        md-selected-item-change="ctrl.selectedItemChange(item)"
+        md-selected-item="ctrl.selectedItem"
+        md-input-name="autocompleteField"
+        md-menu-class="autocomplete-directory"
+        required="">
+        <md-item-template>
+            <div layout="row" layout-align="start center">
+                <img ng-src="{{((item.image).indexOf('no-person') === -1) ? (ctrl.UNIDIRECTORY_AUTOCOMPLETE_CONSTANTS.CROPPING_PHP + item.image ) : ctrl.UNIDIRECTORY_AUTOCOMPLETE_CONSTANTS.DEFAULT_PIC_PATH}}" class="md-avatar" alt="{{item.fullName}}"/>
+                <div class="item-metadata">
+                    <div class="item-description">
+                        <div class="item-title">
+                            <strong>{{item.fullName}}</strong>,
+                            <em>
+                                {{item.positions[0].position}}
+                            </em>
+                        </div>
+                        <div>
+                            <strong>Department:
+                            </strong>{{item.positions[0].department.name}}
+                        </div>
+                        <div>
+                            <strong>Organisational unit:
+                            </strong>
+                            <span ng-repeat="orgUnit in item.positions[0].orgUnits">{{orgUnit.name}}{{$last ? '' : ', '}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-item-template>
+    </md-autocomplete>
+    <pre>Search string:-----------------------------------------------
+{{ctrl.searchText | json}}</pre>
+    <pre>Selected item:-----------------------------------------------
+{{ctrl.selectedItem | json}}</pre>
+    <pre>Search results:-----------------------------------------------
+{{ctrl.UnidirectoryService.searchResults | json}}</pre>
+</div>

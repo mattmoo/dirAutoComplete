@@ -73,16 +73,11 @@
                                 </div>
                             </md-item-template>
                             <div ng-messages="searchForm.autocompleteField.$error">
-                                <div ng-message="required">You
-                                    <b>must</b>
-                                    have a favorite movie.</div>
-                                <div ng-message="minlength">Your entry is not long enough.</div>
-                                <div ng-message="maxlength">Your entry is too long.</div>
+                                <div ng-message="required">You must select a user</div>
                             </div>
                         </md-autocomplete>
                     </div>
                 </md-content>
-                <!-- <pre>{{ctrl | json}}</pre> -->
                 <pre>Search string:-----------------------------------------------
 {{ctrl.searchText | json}}</pre>
                 <pre>Selected item:-----------------------------------------------
