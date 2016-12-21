@@ -56,7 +56,6 @@ class curl_interface {
 				CURLOPT_TIMEOUT => 4,
 				CURLOPT_POSTFIELDS => json_encode ( $post )
 		);
-
 		$ch = curl_init ();
 		$this->auth ( $ch );
 
@@ -94,7 +93,7 @@ class curl_interface {
 		} else {
 			$defaults [CURLOPT_URL] = $url;
 		}
-		
+
 		$ch = curl_init ();
 		if ($useAuth)	{
 				$this->auth ( $ch );

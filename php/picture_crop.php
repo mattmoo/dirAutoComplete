@@ -8,8 +8,17 @@
     ini_set("allow_url_fopen", true);
     header("Content-type: image/jpeg");
 
+    $arrContextOptions=array(
+    "ssl"=>array(
+        "cafile" => "/php/cacert.pem",
+        "verify_peer"=>true,
+        "verify_peer_name"=>true,
+        ),
+    );
 
-    $image = imagecreatefromstring(file_get_contents($url . $img_path));
+
+
+    $image = imagecreatefromstring(file_get_contents($url . $img_path,false, stream_context_create($arrContextOptions)));
 
     $cropped = imagecropauto($image, IMG_CROP_THRESHOLD, .4, 16777215);
     if ($cropped !== false) { // in case a new image resource was returned
